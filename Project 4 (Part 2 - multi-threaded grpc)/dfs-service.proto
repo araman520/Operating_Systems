@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package dfs_service;
+
+service DFSService {
+
+    // Add your service calls here
+
+    // 1. REQUIRED (Parts 1 & 2): A method to store files on the server
+    rpc StoreFile (stream FileFile) returns (CommandChannel) {}
+
+    // 2. REQUIRED (Parts 1 & 2): A method to fetch files from the server
+    rpc FetchFile (CommandChannel) returns (stream FileFile) {}
+
+    // 3. REQUIRED (Parts 1 & 2): A method to list all files on the server
+    rpc ListFile (NULL_Parameter) returns (FileList) {}
+
+    // 4. REQUIRED (Parts 1 & 2): A method to get the status of a file on the server
+    rpc FileStats (FileRequest) returns (FileStat) {}
+
+    // 5. REQUIRED (Part 2 only): A method to request a write lock from the server
+    rpc GetWriteLock (CommandChannel) returns (S_C_Command) {}
+
+    // 6. REQUIRED (Part 2 only): A method named CallbackList to handle asynchronous file listing requests
+    //                            from a client. This method should return a listing of files along with their
+    //                            attribute information. The expected attribute information should include name,
+    //                            size, modified time, and creation time.
+    rpc CallbackList (FileRequest) returns (FileList) {}
+
+    // 7. REQUIRED (Part 2 only): A method to delete a file from the server
+    rpc DeleteFile (CommandChannel) returns (S_C_Command) {}
+
+    // 8. Any other methods you deem necessary to complete the tasks of this assignment
+
+
+}
+
+// Add your message types here
+message FileRequest
+{
+    string name = 1;
+}
+
+message FileList
+{
+    repeated FileStat filestat= 1;
+}
+
+message FileStat
+{
+    int32 status = 1;
+    string filename = 2;
+    int32 size = 3;
+    int32 mtime = 4;
+    int32 ctime = 5;
+    int32 cksum = 6;
+}
+
+message NULL_Parameter
+{}
+
+message C_S_Command
+{
+    int32 command = 1;
+}
+
+message S_C_Command
+{
+    int32 command = 1;
+}
+
+message FileFile
+{
+    bytes file_chunk = 1;
+    string filename = 2;
+    int32 size = 3;
+    int32 status = 4;
+    string client_id = 5;
+    uint32 checksum = 6;
+    int32 mtime = 7;
+}
+
+message CommandChannel
+{
+    string filename = 1;
+    int32 time = 2;
+    int32 status = 3;
+    string client_id = 4;
+    uint32 checksum = 5;
+    int32 mtime = 6;
+}
+

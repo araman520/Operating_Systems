@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package dfs_service;
+
+import "google/protobuf/any.proto";
+
+service DFSService {
+
+    // Add your service calls here
+
+    // 1. REQUIRED (Parts 1 & 2): A method to store files on the server
+    rpc StoreFile (stream FileFile) returns (CommandChannel) {}
+
+    // 2. REQUIRED (Parts 1 & 2): A method to fetch files from the server
+    rpc FetchFile (CommandChannel) returns (stream FileFile) {}
+
+    // 3. REQUIRED (Parts 1 & 2): A method to delete files from the server
+    rpc DeleteFile (CommandChannel) returns (S_C_Command) {}
+
+    // 4. REQUIRED (Parts 1 & 2): A method to list all files on the server
+    rpc ListFile (NULL_Parameter) returns (stream CommandChannel) {}
+
+    // 5. REQUIRED (Parts 1 & 2): A method to get the status of a file on the server
+    rpc FileStats (CommandChannel) returns (FileStat) {}
+
+    // 7. Any other methods you deem necessary to complete the tasks of this assignment
+
+
+
+}
+
+// Add your message types here
+message FileStat
+{
+    int32 status = 1;
+    string filename = 2;
+    int32 size = 3;
+    int32 mtime = 4;
+
+}
+
+message NULL_Parameter
+{}
+
+message C_S_Command
+{
+    int32 command = 1;
+}
+
+message S_C_Command
+{
+    int32 command = 1;
+}
+
+message FileFile
+{
+    bytes file_chunk = 1;
+    string filename = 2;
+    int32 size = 3;
+    int32 status = 4;
+}
+
+message CommandChannel
+{
+    string filename = 1;
+    int32 time = 2;
+    int32 status = 3;
+}
+
+
+

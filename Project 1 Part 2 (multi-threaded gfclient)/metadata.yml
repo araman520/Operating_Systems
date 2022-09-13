@@ -1,0 +1,12 @@
+---
+:id: 44305974
+:submitters:
+- :name: Anirudh Suresh Raman
+  :email: araman62@gatech.edu
+:created_at: !ruby/object:ActiveSupport::TimeWithZone
+  utc: 2020-09-16 20:45:48.940319000 Z
+  zone: !ruby/object:ActiveSupport::TimeZone
+    name: America/Los_Angeles
+  time: 2020-09-16 13:45:48.940319000 Z
+:status: processed
+:score: 20.0
